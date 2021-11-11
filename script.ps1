@@ -3,7 +3,8 @@ $global:outfile="trackingTable.csv"
 function add-csv {
     if (!(Test-Path $outfile)) {
         $newcsv = {} | Select "FILE_NAME","SHA" | Export-Csv $outfile
-        Import-Csv $outfile        
+        Import-Csv $outfile 
+        Write-Output "Created csv file."       
     }
 }
 
