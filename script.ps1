@@ -19,7 +19,7 @@ function main {
     {
         # Processing code goes here
         $filePath = $fileDirectory + "\" + $file;
-        $sha =  (Get-Content $filePath | ConvertFrom-Json).sha
+        $sha =  (Get-Content -Path $filePath | ConvertFrom-Json).sha
 
         Write-Output $sha 
 
