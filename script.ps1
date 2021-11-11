@@ -8,8 +8,7 @@ function add-csv {
 }
 
 function main {
-    $fileDirectory = "D:\a\SmartDeploymentPOC\SmartDeploymentPOC\Deployments";
-    #$fileDirectory = ".\Deployments"
+    $fileDirectory = ".\Deployments"
     add-csv 
     # $parse_results = New-Object System.Collections.ArrayList;
 
