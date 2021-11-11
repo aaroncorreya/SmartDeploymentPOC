@@ -1,5 +1,14 @@
+$global:outfile="trackingTable.csv"
+
+function add-csv {
+    $newcsv = {} | Select "FILE_NAME","SHA" | Export-Csv $outfile
+    Import-Csv $outfile
+}
+
 function main {
-    $fileDirectory = ".\Deployments\";
+    $fileDirectory = ".\Deployments";
+
+    add-csv 
     # $parse_results = New-Object System.Collections.ArrayList;
 
     # Use a foreach to loop through all the files in a directory.
@@ -8,7 +17,12 @@ function main {
     foreach($file in Get-ChildItem $fileDirectory)
     {
         # Processing code goes here
-        Write-Output $file
+        $filePath = $fileDirectory + "\" + $file;
+        $sha =  (Get-Content $filePath | ConvertFrom-Json).sha
+
+        Write-Output $sha 
+
+        "{0},{1}" -f $filePath,$sha | add-content -path $outfile
     }
 }
 
