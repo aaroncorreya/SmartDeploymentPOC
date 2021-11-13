@@ -12,8 +12,13 @@ function add-csv {
     }
 }
 
+
+
 function main { 
-    $token = "ghu_osnzVOCUp7amtAfRtiymbviXs8uAW330byzu"
+    param (
+        $token
+    )
+
     $Header = @{
         "authorization" = "Bearer $token"
     }
@@ -53,4 +58,4 @@ function main {
     Write-Output $createResponse
 }
 
-main
+main -token $args[0]
