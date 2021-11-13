@@ -13,7 +13,7 @@ function add-csv {
 }
 
 function main { 
-    $token = "ghu_3EHLFRevI3QYc80494jfsilN6tQ4rI1vJUOL"
+    $token = "ghu_osnzVOCUp7amtAfRtiymbviXs8uAW330byzu"
     $Header = @{
         "authorization" = "Bearer $token"
     }
