@@ -53,9 +53,17 @@ function main {
         "{0},{1}" -f $_.Key, $_.Value | add-content -path $outfile
     }
 
-    # $createFileUrl = "https://api.github.com/repos/aaroncorreya/SmartDeploymentPOC/repos/aaroncorreya/SmartDeploymentPOC/contents/trackingTable.csv"
-    # $createResponse = Invoke-RestMethod $createFileUrl -Headers $header
-    # Write-Output $createResponse
+    $createFileUrl = "https://api.github.com/repos/aaroncorreya/SmartDeploymentPOC/repos/aaroncorreya/SmartDeploymentPOC/contents/trackingTable.csv"
+    $content = Get-Content -Path "./trackingTable.csv" | Out-String
+    Write-Output $content
+    $Parameters = @{
+        Method      = "PUT"
+        Uri         = $createFileUrl
+        Headers     = $Header
+        Message     = "trackingTable.csv created."
+        Content     = $content
+    }
+    Invoke-RestMethod @Parameters
 }
 
 main -token $args[0]
