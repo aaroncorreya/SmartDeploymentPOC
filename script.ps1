@@ -1,9 +1,5 @@
 $global:outfile="trackingTable.csv"
 
-# Param (
-#     [Parameter(Mandatory=$true)][string]$GithubToken
-# )
-
 function add-csv {
     if (!(Test-Path $outfile)) {
         $newcsv = {} | Select "FILE_NAME","SHA" | Export-Csv $outfile
@@ -11,8 +7,6 @@ function add-csv {
         Write-Output "Created csv file."       
     }
 }
-
-
 
 function main { 
     param (
@@ -53,16 +47,26 @@ function main {
         "{0},{1}" -f $_.Key, $_.Value | add-content -path $outfile
     }
 
-    $createFileUrl = "https://api.github.com/repos/aaroncorreya/SmartDeploymentPOC/repos/aaroncorreya/SmartDeploymentPOC/contents/trackingTable.csv"
+    $createFileUrl = "https://api.github.com/repos/aaroncorreya/SmartDeploymentPOC/contents/trackingTable.csv"
     $content = Get-Content -Path "./trackingTable.csv" | Out-String
     Write-Output $content
+
+    $encodedBytes = [System.Text.Encoding]::UTF8.GetBytes($content)
+    $encodedContent = [System.Convert]::ToBase64String($encodedBytes)
+    
+    $body = @{
+        message = "trackingTable.csv created."
+        content = $encodedContent
+        branch = "api-calls"
+    }
+
     $Parameters = @{
         Method      = "PUT"
         Uri         = $createFileUrl
         Headers     = $Header
-        Message     = "trackingTable.csv created."
-        Content     = $content
+        Body        = $body | ConvertTo-Json
     }
+    #Commit csv file
     Invoke-RestMethod @Parameters
 }
 
